@@ -46,11 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\Modify.cs" />
     <Compile Include="Classes\Physics.cs" />
     <Compile Include="Classes\Platform.cs" />
     <Compile Include="Classes\PlatformGenerate.cs" />
     <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Shooting.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +101,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resourses\rightJump.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enemy1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enemy2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enemy3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shooting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\platform2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\platform3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

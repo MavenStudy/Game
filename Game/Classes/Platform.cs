@@ -14,11 +14,27 @@ namespace Game.Classes
        
         public bool stepByPlayer;
 
-        public Platform(PointF pos)
+        public Platform(PointF pos, int type)
         {
-            imagePlatform = Properties.Resources.platform;
-            mod = new Modify(pos, new Size(60, 35));
-            stepByPlayer = false;
+            switch (type)
+            {
+                case 1:
+                    imagePlatform = Properties.Resources.platform;
+                    mod = new Modify(pos, new Size(60, 20));
+                    stepByPlayer = false;
+                    break;
+                case 2:
+                    imagePlatform = Properties.Resources.platform2;
+                    mod = new Modify(pos, new Size(60, 20));
+                    stepByPlayer = false;
+                    break;
+                case 3:
+                    imagePlatform = Properties.Resources.platform3;
+                    mod = new Modify(pos, new Size(35, 20));
+                    stepByPlayer = false;
+                    break;
+
+            }
         }
 
         public void DrawSprite(Graphics g)
