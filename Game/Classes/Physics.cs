@@ -52,13 +52,61 @@ namespace Game.Classes
                     {
                         if (gravity > 0)
                         {
-                            gravity = -8; //сила прыжка
+                            gravity = -10; //сила прыжка
+                            if (!platform.stepByPlayer)
+                            {
+                                PlatformGenerate.GenerateRandomPlatform();
+                                platform.stepByPlayer = true;
+                            }
                         }
                     }
                 }
             }
         }
-            
+
+        public bool CollideWithObjects(bool forMonsters)
+        {
+            if (forMonsters)
+            {
+                for (int i = 0; i < PlatformGenerate.enemies.Count; i++)
+                {
+                    var enemy = PlatformGenerate.enemies[i];
+                    PointF delta = new PointF();
+                    delta.X = (mod.position.X + mod.size.Width / 2) - (enemy.physics.mod.position.X + enemy.physics.mod.size.Width / 2);
+                    delta.Y = (mod.position.Y + mod.size.Height / 2) - (enemy.physics.mod.position.Y + enemy.physics.mod.size.Height / 2);
+                    if (Math.Abs(delta.X) <= mod.size.Width / 2 + enemy.physics.mod.size.Width / 2)
+                    {
+                        if (Math.Abs(delta.Y) <= mod.size.Height / 2 + enemy.physics.mod.size.Height / 2)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool Collide()
+        {
+            for (int i = 0; i < PlatformGenerate.shots.Count; i++)
+            {
+                var shot = PlatformGenerate.shots[i];
+                PointF delta = new PointF();
+                delta.X = (mod.position.X + mod.size.Width / 2) - (shot.physics.mod.position.X + shot.physics.mod.size.Width / 2);
+                delta.Y = (mod.position.Y + mod.size.Height / 2) - (shot.physics.mod.position.Y + shot.physics.mod.size.Height / 2);
+                if (Math.Abs(delta.X) <= mod.size.Width / 2 + shot.physics.mod.size.Width / 2)
+                {
+                    if (Math.Abs(delta.Y) <= mod.size.Height / 2 + shot.physics.mod.size.Height / 2)
+                    {
+                        PlatformGenerate.RemoveShot(i);
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+
     }
 }
 

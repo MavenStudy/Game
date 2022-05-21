@@ -29,6 +29,8 @@ namespace Game
             PlatformGenerate.AddPlatform(new PointF(100, 400));
             PlatformGenerate.startPos = 400;
             PlatformGenerate.GenerateStart();
+            PlatformGenerate.shots.Clear();
+            PlatformGenerate.enemies.Clear();
             player = new Player();
         }
 
@@ -50,16 +52,46 @@ namespace Game
                     player.imagePlayer = Properties.Resources.leftJump;
                     player.physics.dx = -6;
                     break;
+                case "Space":
+                    player.imagePlayer = Properties.Resources.shooting;
+                    PlatformGenerate.CreateShot(new PointF(player.physics.mod.position.X + player.physics.mod.size.Width / 2, player.physics.mod.position.Y));
+                    break;
             }
         }
 
 
         private void Update(object sender, EventArgs e)
         {
-            if (player.physics.mod.position.Y >= PlatformGenerate.platforms[0].mod.position.Y + 200)
+            if (player.physics.mod.position.Y >= PlatformGenerate.platforms[0].mod.position.Y + 200 || player.physics.CollideWithObjects(true))
                 Init();
-            player.physics.CalculatePhysics();
 
+            player.physics.CollideWithObjects(false);
+
+            if (PlatformGenerate.shots.Count > 0)
+            {
+                for (int i = 0; i < PlatformGenerate.shots.Count; i++)
+                {
+                    if (Math.Abs(PlatformGenerate.shots[i].physics.mod.position.Y - player.physics.mod.position.Y) > 500)
+                    {
+                        PlatformGenerate.RemoveShot(i);
+                        continue;
+                    }
+                    PlatformGenerate.shots[i].MoveUp();
+                }
+            }
+            if (PlatformGenerate.enemies.Count > 0)
+            {
+                for (int i = 0; i < PlatformGenerate.enemies.Count; i++)
+                {
+                    if (PlatformGenerate.enemies[i].physics.Collide())
+                    {
+                        PlatformGenerate.RemoveEnemy(i);
+                        break;
+                    }
+                }
+            }
+
+            player.physics.CalculatePhysics();
             FollowMode();
             Invalidate();
         }
@@ -72,6 +104,16 @@ namespace Game
                 for (int i = 0; i < PlatformGenerate.platforms.Count; i++)
                     PlatformGenerate.platforms[i].DrawSprite(g);
             }
+            if (PlatformGenerate.enemies.Count > 0)
+            {
+                for (int i = 0; i < PlatformGenerate.enemies.Count; i++)
+                    PlatformGenerate.enemies[i].DrawSprite(g);
+            }
+            if (PlatformGenerate.shots.Count > 0)
+            {
+                for (int i = 0; i < PlatformGenerate.shots.Count; i++)
+                    PlatformGenerate.shots[i].DrawSprite(g);
+            }
             player.DrawSprite(g);
         }
         public void FollowMode()
@@ -82,6 +124,16 @@ namespace Game
             {
                 var platform = PlatformGenerate.platforms[i];
                 platform.mod.position.Y += offset;
+            }
+            for (int i = 0; i < PlatformGenerate.enemies.Count; i++)
+            {
+                var enemy = PlatformGenerate.enemies[i];
+                enemy.physics.mod.position.Y += offset;
+            }
+            for (int i = 0; i < PlatformGenerate.shots.Count; i++)
+            {
+                var shot = PlatformGenerate.shots[i];
+                shot.physics.mod.position.Y += offset;
             }
         }
 
