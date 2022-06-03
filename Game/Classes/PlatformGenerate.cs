@@ -13,6 +13,7 @@ namespace Game.Classes
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Shooting> shots = new List<Shooting>();
         public static int startPos = 400;
+        public static int score = 0;
         
         public static void AddPlatform(PointF position)
         {
@@ -65,7 +66,7 @@ namespace Game.Classes
         }
         public static void GenerateRandomPlatform()
         {
-
+            ClearPlatforms();
             Random r = new Random();
             int x = r.Next(0, 270);
             PointF position = new PointF(x, startPos);
@@ -129,6 +130,21 @@ namespace Game.Classes
         public static void RemoveShot(int i)
         {
             shots.RemoveAt(i);
+        }
+
+        public static void ClearPlatforms()
+        {
+            for (int i = 0; i < platforms.Count; i++)
+            {
+                if (platforms[i].mod.position.Y >= 700)
+                    platforms.RemoveAt(i);
+            }
+          
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i].physics.mod.position.Y >= 700)
+                    enemies.RemoveAt(i);
+            }
         }
 
     }

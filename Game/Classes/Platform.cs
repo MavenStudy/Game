@@ -30,7 +30,7 @@ namespace Game.Classes
                     break;
                 case 3:
                     imagePlatform = Properties.Resources.platform3;
-                    mod = new Modify(pos, new Size(35, 20));
+                    mod = new Modify(pos, new Size(45, 20));
                     stepByPlayer = false;
                     break;
 
