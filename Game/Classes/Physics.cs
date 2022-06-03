@@ -21,8 +21,9 @@ namespace Game.Classes
         {
             mod = new Modify(position, size);
             gravity = 0;
-            a = 0.4f;
+            a = 0.5f;
             dx = 0;
+            
         }
 
         public void CalculatePhysics()
@@ -41,13 +42,13 @@ namespace Game.Classes
 
         public void Touch()
         {
-            for(int i = 0; i < PlatformGenerate.platforms.Count; i++)
+            for (int i = 0; i < PlatformGenerate.platforms.Count; i++)
             {
                 var platform = PlatformGenerate.platforms[i];
-                if(mod.position.X + mod.size.Width/2 >= platform.mod.position.X && 
-                    mod.position.X + mod.size.Width/2 <= platform.mod.position.X + platform.mod.size.Width)
+                if (mod.position.X + mod.size.Width / 2 >= platform.mod.position.X &&
+                    mod.position.X + mod.size.Width / 2 <= platform.mod.position.X + platform.mod.size.Width)
                 {
-                    if(mod.position.Y + mod.size.Height >= platform.mod.position.Y &&
+                    if (mod.position.Y + mod.size.Height >= platform.mod.position.Y &&
                         mod.position.Y + mod.size.Height <= platform.mod.position.Y + platform.mod.size.Height)
                     {
                         if (gravity > 0)
@@ -55,6 +56,7 @@ namespace Game.Classes
                             gravity = -10; //сила прыжка
                             if (!platform.stepByPlayer)
                             {
+                                PlatformGenerate.score += 1;
                                 PlatformGenerate.GenerateRandomPlatform();
                                 platform.stepByPlayer = true;
                             }
