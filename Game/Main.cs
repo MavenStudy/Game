@@ -19,17 +19,6 @@ namespace Game
         public Main()
         {
             InitializeComponent();
-            Init();
-            timer = new Timer();
-            timer.Interval = 30;
-            PlatformGenerate.score = 0;
-            timer.Tick += new EventHandler(Update);
-            timer.Start();
-            this.KeyDown += new KeyEventHandler(OnKeyboardPressed);
-            this.KeyUp += new KeyEventHandler(OnKeyboardUp);
-            this.BackgroundImage = Properties.Resources.back;
-            this.Paint += new PaintEventHandler(OnRepaint);
-            
         }
         
 
